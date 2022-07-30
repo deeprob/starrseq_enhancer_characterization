@@ -104,18 +104,22 @@ def link_enhancers_to_libwise_rpp(meta_rpp_file, peak_file, lib_short, cc_short)
 # binding motifs #
 ##################
 
-def parse_tf_binding_file(tf_binding_file):
+def parse_tf_binding_file(tf_binding_file, tf_name_file):
+    tfn = open(tf_name_file, "r") 
+    tf_name_dict = json.load(tfn)
+    tfn.close()
     df = pd.read_csv(tf_binding_file, sep="\t")
     df[["chrom", "start"]] = df.PositionID.str.split("-", expand=True)[0].str.split(":", expand=True)
     df["end"] = df.PositionID.str.split("-", expand=True)[1]
     df = df.astype({"start": int, "end": int})
+    df["Motif Name"] = df["Motif Name"].apply(lambda x: tf_name_dict.get(x, ""))
     return df.loc[:, ["chrom", "start", "end", "Motif Name"]]
 
-def link_enhancers_to_binding_motifs(tf_binding_file, peak_file):
+def link_enhancers_to_binding_motifs(tf_binding_file, tf_name_file, peak_file):
     df_peak = parse_peak_file(peak_file)
-    df_bind = parse_tf_binding_file(tf_binding_file)
+    df_bind = parse_tf_binding_file(tf_binding_file, tf_name_file)
     df = df_peak.merge(df_bind, on=["chrom", "start", "end"])
-    return df.groupby(["chrom", "start", "end"]).agg(lambda x: x.to_list())
+    return df.groupby(["chrom", "start", "end"]).agg(lambda x: sorted(set([i for i in x.to_list() if i])))
 
 
 #####################

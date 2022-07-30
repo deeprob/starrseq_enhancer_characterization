@@ -9,7 +9,8 @@
 #SBATCH --chdir /data5/deepro/starrseq/main_library/10_enhancer_characterization/src
 #SBATCH -o /data5/deepro/starrseq/main_library/10_enhancer_characterization/slurm/logs/out_%a.log
 #SBATCH -e /data5/deepro/starrseq/main_library/10_enhancer_characterization/slurm/logs/err_%a.log
-#SBATCH --array 1-2
+#SBATCH --nodelist qingyu
+#SBATCH --array 1-21
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!

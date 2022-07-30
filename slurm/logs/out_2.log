@@ -1,3 +1,0 @@
-Fri 29 Jul 2022 08:21:27 PM EDT starting job on ramona
-/data5/deepro/starrseq/data/meta_data/metadata.json ctcf /data5/deepro/starrseq/main_library/5_enhancer_classification/data/diff_activity /data5/deepro/starrseq/main_library/7_rnaseq/data/de/diff_exp_to_control /data5/deepro/starrseq/main_library/8_enhancer_gene_map/data /data5/deepro/starrseq/main_library/0_region_selection/data/encode/hek293/chip /data5/deepro/starrseq/main_library/9_rnaseq_comparison/data/meta_rpp.csv /data5/deepro/starrseq/main_library/6_sequence_determinants/data/meta_peaks/homer_out/motif_scan.tsv /data5/deepro/starrseq/main_library/10_enhancer_characterization/data induced
-Fri 29 Jul 2022 08:21:50 PM EDT ending job

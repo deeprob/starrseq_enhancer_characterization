@@ -12,6 +12,7 @@ def main(
     chip_dir,
     rpp_file,
     tf_bind_file,
+    tf_name_file,
     diff_activity_type,
     store_dir
     ):
@@ -24,7 +25,7 @@ def main(
     rna_file = os.path.join(rnaseq_dir, f"{lib_short}_vs_CC.tsv")
     enhancer_gene_df = ut.link_enhancers_to_genes(target_gene_file, rna_file)
     # binding motif df
-    enhancer_motif_df = ut.link_enhancers_to_binding_motifs(tf_bind_file, peak_file)
+    enhancer_motif_df = ut.link_enhancers_to_binding_motifs(tf_bind_file, tf_name_file, peak_file)
     # histone df
     histones = sorted([f.name for f in os.scandir(os.path.join(chip_dir, "histone"))])
     enhancer_histone_df = ut.link_enhancers_to_multiple_chips(chip_dir, "histone", histones, peak_file)
@@ -34,7 +35,7 @@ def main(
     # concatenated meta df
     meta_df = pd.concat((enhancer_activity_df, enhancer_gene_df, enhancer_motif_df, enhancer_tf_df, enhancer_histone_df), axis=1)
     store_file = os.path.join(store_dir, lib_short, diff_activity_type, "enhancer_meta.csv")
-    os.makedirs(os.path.dirname(store_file))
+    os.makedirs(os.path.dirname(store_file), exist_ok=True)
     meta_df.to_csv(store_file, index=True)
     return
 
@@ -49,6 +50,7 @@ if __name__ == "__main__":
     parser.add_argument("chip_dir", type=str, help="Dir where theencode chipseq files are stored")
     parser.add_argument("rpp_file", type=str, help="The meta reads per plasmid matrix file where rpp info for all enhancers across all libraries is stored")
     parser.add_argument("tf_bind_file", type=str, help="The meta file that contains tf binding information for all enhancers across all libraries")
+    parser.add_argument("tf_name_file", type=str, help="The file that contains tf motif names mapped to tf gene name")
     parser.add_argument("store_dir", type=str, help="Dir to store great results")
     parser.add_argument("diff_activity_type", type=str, help="type of differential enhancer activity, use this argument to compare induced,repressed and constitutive peaks between lib1 and control")
 
@@ -63,6 +65,7 @@ if __name__ == "__main__":
         cli_args.chip_dir,
         cli_args.rpp_file,
         cli_args.tf_bind_file,
+        cli_args.tf_name_file,
         cli_args.diff_activity_type,
         cli_args.store_dir
     )
