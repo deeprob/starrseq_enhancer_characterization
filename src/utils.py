@@ -34,15 +34,9 @@ def create_args(meta_file, lib_name):
 # filepath parser #
 ###################
 
-def get_lib_peak_parsed_filepath(store_dir, lib_short):
+def get_lib_dapeak_filepath(store_dir, lib_short, da_type):
     peak_filepath = os.path.join(
-        store_dir, "lib_peak",lib_short, "peaks.bed"
-        )
-    return peak_filepath
-
-def get_lib_dapeak_parsed_filepath(store_dir, lib_short, da_type):
-    peak_filepath = os.path.join(
-        store_dir, "diff_peak", lib_short, f"{da_type}.bed"
+        store_dir, lib_short, f"{da_type}.bed"
         )
     return peak_filepath
 
